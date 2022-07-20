@@ -24,7 +24,7 @@ include_once 'includes/footer.php';
 
 <div class="row">
     <div class="col s12 m6 push-m3">
-        <h3 class="light">Clientes</h3>
+        <h3 class="light">Teste</h3>
         <table class="striped">
             <thead>
                 <tr>
