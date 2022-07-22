@@ -1,6 +1,5 @@
 <?php
 include_once 'includes/header.php';
-include_once 'includes/footer.php';
 ?>
 
 <div class="row">
@@ -31,3 +30,7 @@ include_once 'includes/footer.php';
         </form>
     </div>
 </div>
+
+<?php
+include_once 'includes/footer.php';
+?>

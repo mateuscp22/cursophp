@@ -1,25 +1,10 @@
 <?php
-//Sessão
-session_start();
-if (isset($_SESSION['mensagem'])) : ?>
-    <script>
-        //Mensagem 
-        window.onload = function() {
-            M.toast({
-                hmtl: '<?php echo $_SESSION['mensagem']; ?>'
-            });
-        };
-    </script>
-
-<?php
-endif;
-session_unset();
-
 //Conexão BD
 include_once 'php_action/db_connect.php';
 //Header
 include_once 'includes/header.php';
-include_once 'includes/footer.php';
+//Message
+require_once "includes/message.php";
 ?>
 
 <div class="row">
@@ -38,20 +23,53 @@ include_once 'includes/footer.php';
                 <?php
                 $sql = "SELECT * FROM clientes";
                 $resultado = mysqli_query($connect, $sql);
-                while ($dados = mysqli_fetch_array($resultado)) :
+                if (mysqli_num_rows($resultado) > 0) :
+                    while ($dados = mysqli_fetch_array($resultado)) :
                 ?>
+                        <tr>
+                            <td><?php echo $dados['nome'] ?></td>
+                            <td><?php echo $dados['sobrenome'] ?></td>
+                            <td><?php echo $dados['email'] ?></td>
+                            <td><?php echo $dados['idade'] ?></td>
+                            <td><a href="edit.php?id=<?php echo $dados['id'] ?>" class="btn-floating orange"><i class="material-icons">edit</i></a></td>
+                            <td><a href="#modal<?php echo $dados['id'] ?>" class="btn-floating red modal-trigger"><i class="material-icons">delete</i></a></td>
+
+                            <!-- Modal Structure -->
+                            <div id="modal<?php echo $dados['id'] ?>" class="modal">
+                                <div class="modal-content">
+                                    <h4>Excluindo Cliente</h4>
+                                    <p>Deseja excluir o clinete?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="php_action/delete.php" method="POST">
+                                        <input type="hidden" name="id" value="<?php echo $dados['id'] ?>">
+                                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                                        <button type="submit" name="btn-deletar" class="btn red">Sim</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </tr>
+                    <?php
+                    endwhile;
+                else : ?>
                     <tr>
-                        <td><?php echo $dados['nome'] ?></td>
-                        <td><?php echo $dados['sobrenome'] ?></td>
-                        <td><?php echo $dados['email'] ?></td>
-                        <td><?php echo $dados['idade'] ?></td>
-                        <td><a href="" class="btn-floating orange"><i class="material-icons">edit</i></a></td>
-                        <td><a href="" class="btn-floating red"><i class="material-icons">delete</i></a></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
-                <?php endwhile; ?>
+                <?php
+                endif;
+                ?>
             </tbody>
         </table>
         <br>
-        <a href="adicionar.php" class="btn"> Adicionar Cliente </a>
+        <a href="registration.php" class="btn"> Adicionar Cliente </a>
     </div>
 </div>
+
+<?php
+//Footer
+include_once 'includes/footer.php';
+?>
