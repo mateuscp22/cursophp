@@ -10,16 +10,16 @@ function clear($input)
     global $connect;
     //sql
     $var = mysqli_escape_string($connect, $input);
-    //xss
+    // xss
     $var = htmlspecialchars($var);
     return $var;
 }
 
 if (isset($_POST['btn-cadastrar'])) :
-    $nome = clear($connect, $_POST['nome']);
-    $sobrenome = clear($connect, $_POST['sobrenome']);
-    $email = clear($connect, $_POST['email']);
-    $idade = clear($connect, $_POST['idade']);
+    $nome = clear($_POST['nome']);
+    $sobrenome = clear($_POST['sobrenome']);
+    $email = clear($_POST['email']);
+    $idade = clear($_POST['idade']);
 
     $sql = "INSERT INTO clientes (nome, sobrenome, email, idade) VALUES ('$nome', '$sobrenome', '$email', '$idade')";
 
